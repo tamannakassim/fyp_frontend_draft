@@ -10,7 +10,7 @@
 <!--header part-->
 <header class="top">
     <img src="src/images/favicon-logo.png" alt="aiu-logo" height="70"/>
-    <a href="signin.html" class="register-btn">Login</a>
+    <a href="login.html" class="register-btn">Login</a>
 </header>
 
 <!--register part-->
@@ -22,13 +22,29 @@
 				<img src="src/images/it-helpdesk-best-practices.jpg">
 				<h2 class="title">Welcome</h2>
            		   <div class="button-boxes">
-                        <input type="text" class="input" placeholder="First name">
-                        <input type="text" class="input" placeholder="Last name">
-                        <input type="text" class="input" placeholder="School">
-                        <input type="text" class="input" placeholder="Programme">
-                        <input type="text" class="input" placeholder="Student ID">
-           		   		<input type="text" class="input" placeholder="Email Address">
-           		    	<input type="password" class="input" placeholder="Password">
+					<input type="text" class="input" placeholder="First Name" required>
+					<input type="text" class="input" placeholder="Last Name" required>
+					
+					<select class="input" required>
+						<option value="" disabled selected>Select School</option>
+						<option value="School of Computing and Informatics">School of Computing and Informatics</option>
+						<option value="School of Business and Social Sciences">School of Business and Social Sciences</option>
+						<option value="School of Education and Human Sciences">School of Education and Human Sciences</option>
+						<option value="Centre for Foundation and General Studies">Centre for Foundation and General Studies</option>
+						<option value="Language Centre">Language Centre</option>
+					</select>
+					<!--to be done later-->
+					<select class="input" required>
+						<option value="" disabled selected>Select Programme</option>
+						<option value="Computer Science">Computer Science</option>
+						<option value="Information Technology">Information Technology</option>
+						<option value="Software Engineering">Software Engineering</option>
+					</select>
+					
+					<input type="text" class="input" placeholder="Student ID" required>
+					<input type="email" class="input" placeholder="Email Address" required>
+					<input type="password" class="input" placeholder="Password" required>
+					
             	   </div>
             	<input type="submit" class="btn" value="Register">
             </form>
