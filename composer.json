@@ -1,0 +1,16 @@
+{
+    "name": "sumai/fyp_frontend_draft-main",
+    "type": "clear",
+    "autoload": {
+        "psr-4": {
+            "Sumai\\FypFrontendDraftMain\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "maiyahsarah",
+            "email": "sumaiyahsarathee@gmail.com"
+        }
+    ],
+    "require": {}
+}
