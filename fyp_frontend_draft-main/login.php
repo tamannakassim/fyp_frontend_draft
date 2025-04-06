@@ -13,11 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST["Password"];
 
         // Query the database to get the user's data based on the email
-        $stmt = $conn->prepare("SELECT UserID, Email, PasswordHash FROM users WHERE Email = ?");
+        $stmt = $conn->prepare("SELECT UserID, Email, PasswordHash, Role FROM users WHERE Email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
-        $stmt->bind_result($user_id, $stored_email, $stored_password_hash);
+        $stmt->bind_result($user_id, $stored_email, $stored_password_hash, $role);
         
         // Check if the email exists in the database
         if ($stmt->fetch()) {
@@ -25,7 +25,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($password, $stored_password_hash)) {
                 // Password matches, set session variable
                 $_SESSION['user'] = $stored_email;
-                echo "Login successful";
+                $_SESSION['user_id'] = $user_id;
+                
+                // Check if the user has the 'student' role and redirect accordingly
+                if ($role == 'student') {
+                    header("Location: student.php");
+                    exit(); // Make sure to stop further code execution after redirect
+                } else {
+                    echo "Login successful, but not a student!";
+                }
             } else {
                 // Password does not match
                 echo "Invalid email or password";
@@ -44,8 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,19 +63,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <!--header part-->
 <header class="top">
-    <img src="src/images/favicon-logo.png" alt="aiu-logo" height="70"/>
+    <img src="./images/favicon-logo.png" alt="aiu-logo" height="70"/>
     <a href="register.php" class="register-btn">Register</a>
 </header>
 <!--login part-->	
-<img class="wave" src="src/images/img-login.svg">
+<img class="wave" src="./images/img-login.svg">
 	<div class="container">
 		<div class="img"></div>
 		    <div class="login-content">
 			    <form action="login.php" method="POST">
-				    <img src="src/images/it-helpdesk-best-practices.jpg">
+				    <img src="./images/it-helpdesk-best-practices.jpg">
 				        <h2 class="title">ICT Helpdesk</h2>
 				        <div class="button-boxes">
-					        <input name="Email" type="text" class="input" placeholder="Email Address">
+					        <input name="Email" type="email" class="input" placeholder="Email Address">
 					        <input name="Password" type="password" class="input" placeholder="Password">
 			            </div>
             	    <a href="forgotpassword.html">Forgot Password?</a>

@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-	<title>ICT Helpdesk Login Form</title>
+	<title>ICT Helpdesk Registration Form</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,17 +77,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <!--header part-->
 <header class="top">
-    <img src="src/images/favicon-logo.png" alt="aiu-logo" height="70"/>
+    <img src="./images/favicon-logo.png" alt="aiu-logo" height="70"/>
     <a href="login.php" class="register-btn">Login</a>
 </header>
 
 <!--register part-->
-<img class="wave" src="src/images/img-login.svg">
+<img class="wave" src="./images/img-login.svg">
 	<div class="container">
 		<div class="box-content"></div>
 		<div class="login-content">
 		<form action="register.php" method="POST">
-				<img src="src/images/it-helpdesk-best-practices.jpg">
+				<img src="./images/it-helpdesk-best-practices.jpg">
 				<h2 class="title">Welcome</h2>
            		   <div class="button-boxes">
 					<input type="text" class="input" name="FirstName" placeholder="First Name" required>

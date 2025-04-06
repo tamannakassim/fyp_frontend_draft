@@ -6,13 +6,16 @@
 
 /*header*/
 .top{
+	position: relative;
+	z-index: 1000;
+	width: 100%;
     padding: 10px;
     background-color: #38d39f;
 }
 
 body{
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .wave{
@@ -25,7 +28,7 @@ body{
 
 .container{
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap :7rem;
@@ -113,6 +116,32 @@ a:hover{
 .register-btn:hover{
     color: white;
 }
+.ticket-btn{
+	position: relative;
+    right: 10px;
+	display: block;
+	min-width: 150px;
+	height: 50px;
+	border-radius: 25px;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+	background-size: 200%;
+	font-size: 1.2rem;
+	color: #fff;
+	text-decoration: none;
+	text-align: center;
+	font-family: 'Poppins', sans-serif;
+	text-transform: uppercase;
+	margin: 1rem 0;
+	cursor: pointer;
+	transition: .5s;
+	line-height: 50px;
+}
+.ticket-btn:hover{
+    color: white;
+}
+
 
 /*input boxes style*/
 .button-boxes{
@@ -137,11 +166,90 @@ a:hover{
     border-color: #38d39f; /* Highlight border when focused */
 }
 
+.ticket .btn{
+	width: 25%;
+	background-color: #38d39f; /* Highlight border when focused */
+}
+.sidebar {
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh; /* fills full visible screen */
+    background: #38d39f;
+    padding-top: 100px;
+    z-index: 1001;
+    transition: transform 0.3s ease;
+    transform: translateX(0);
+	z-index: 999;
+}
+.sidebar ul {
+	list-style-type: none;
+	padding: 0;
+}
+.sidebar ul li {
+	padding: 15px;
+}
+.sidebar ul li a {
+	color: white;
+	text-decoration: none;
+	display: block;
+	font-weight: bold;
+	font-size: 18px;
+	text-align: center;}
+.sidebar ul li a:hover {
+	background: #32be8f;
+}
+.sidebar-toggle {
+	display: none;
+    position: fixed;
+    top: 20px;
+    left: 5px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    z-index: 1100;
+    /* optional: makes it easier to see */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+/*Dashboard CSS*/
+.dashboard-wrapper {
+	
+	padding: 50px 20px 40px;
+	width: 100%;
+	background-color: #f8f9fa;
+	min-height: 100vh;
+	box-sizing: border-box;
+}
+
+.dashboard-content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+
+@media screen and (max-width: 900px) {
+	.sidebar {
+		transform: translateX(-100%);
+	}
+	.sidebar.active {
+		transform: translateX(0);
+	}
+	.sidebar-toggle {
+		display: block;
+	}
+
 @media screen and (max-width: 1050px){
 	.container{
 		grid-gap: 5rem;
 	}
-}
+}}
 
 @media screen and (max-width: 1000px){
 	form{

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Dashboard</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-DQvkBjpPgn7RC31MCQoOeC9TI2kdqa4+BSgNMNj8v77fdC77Kj5zpWFTJaaAoMbC" crossorigin="anonymous">
+    
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<!--header part-->
+<header class="top">
+    <img src="./images/favicon-logo.png" alt="aiu-logo" height="70"/>
+    <a href="logout.php" class="register-btn">Logout</a>
+</header>
+
+<div class="sidebar" id="sidebar">
+    <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Solved</a></li>
+        <li><a href="#">Pending</a></li>
+    </ul>
+</div>
+
+<!-- Sidebar Toggle Button for Small Screens -->
+<span class="sidebar-toggle" onclick="toggleSidebar()">&#9776;</span>
+
+
+<!--Dashboard content-->
+<div class="dashboard-wrapper">
+    <div class="dashboard-content">
+        <div class="card mb-4 shadow text-center">
+            <div class="card-body">
+                <h3>Welcome Admin</h3>
+            </div>
+        </div>
+
+        <div class="card mb-4 shadow" style="width: 100%; max-width: 800px;">
+            <div class="card-body">
+                <canvas id="myChart" style="max-height: 300px; width: 100%;"></canvas>
+            </div>
+        </div>
+
+        <div class="card shadow" style="width: 100%; max-width: 800px;">
+            <div class="card-header text-center">
+                Latest Tickets
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Assigned To</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>John Doe</td>
+                                <td>john.doe@example.com</td>
+                                <td>Login Issue</td>
+                                <td>Support Agent A</td>
+                                <td>2025-04-01</td>
+                                <td>
+                                    <a href="#" class="btn btn-success btn-sm">View</a>
+                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Jane Smith</td>
+                                <td>jane.smith@example.com</td>
+                                <td>Unable to Submit Ticket</td>
+                                <td>Support Agent B</td>
+                                <td>2025-04-03</td>
+                                <td>
+                                    <a href="#" class="btn btn-success btn-sm">View</a>
+                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Chart.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+
+    window.onload = function () {
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+            label: 'Tickets per Month',
+            data: [12, 19, 3, 5, 2],
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+    }
+</script>
+<script src="./support/assets/js/jquery-3.6.0.min.js"></script>
+<script src="./support/assets/js/popper.min.js"></script>
+<script src="./support/assets/js/bootstrap.min.js"></script>
+
+</body>
+</html>
