@@ -1,3 +1,32 @@
+<?php
+
+session_start();
+
+$_SESSION['user_id'] = 345;  // testing with dummy data
+
+include __DIR__ . '/db_connect.php';
+ // DB connection file
+
+$user_id = $_SESSION['user_id'] ?? null;
+$FirstName = '';
+
+if ($user_id) {
+    $query = "SELECT u.FirstName 
+              FROM users u
+              JOIN itpersonnel i ON u.UserID = i.UserID
+              WHERE u.UserID = ?";
+    
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id); // i user_id is integer
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($row = $result->fetch_assoc()) {
+        $FirstName = $row['FirstName'];
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,8 +75,8 @@
       transition: transform 0.2s ease-in-out;
     }
     .card-tall {
-  min-height: 300px;
-}
+      min-height: 300px;
+    }
 
     .card:hover {
       transform: scale(1.03);
@@ -70,13 +99,15 @@
     <a href="#" class="me-3">
       <i class="fa-regular fa-bell fs-5"></i>
     </a>
-    <a href="#" class="btn btn-light text-danger fw-semibold">Logout</a>
+    <a href="logout.php" class="btn btn-light text-danger fw-semibold">Logout</a>
   </div>
 </nav>
 
 <!-- Dashboard Section -->
 <section class="dashboard-section container">
-  <h2 class="dashboard-title text-center text-success">Welcome, IT Personnel</h2>
+  <h2 class="dashboard-title text-center text-success">
+    Welcome, <?php echo htmlspecialchars($FirstName ?: 'IT Personnel'); ?>
+  </h2>
   
   <div class="row g-4">
     <!-- Assigned Tickets -->
@@ -121,3 +152,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
