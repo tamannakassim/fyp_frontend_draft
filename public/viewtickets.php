@@ -95,7 +95,7 @@ $result = $stmt->get_result();
         <?php while($row = $result->fetch_assoc()): ?>
         <tr>
           <td>#<?= $row['TicketID'] ?></td>
-          <td><?= $row['StudentID'] ?></td>
+          <td>AIU<?= $row['StudentID'] ?></td>
           <td><?= htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']) ?></td>
           <td><?= htmlspecialchars($row['CategoryName']) ?></td>
           <td><?= htmlspecialchars($row['Title']) ?></td>
@@ -107,7 +107,7 @@ $result = $stmt->get_result();
             </span>
           </td>
           <td>
-            <a href="ticket_details.php?id=<?= $row['TicketID'] ?>" class="btn btn-sm btn-outline-primary">View</a>
+            <a href="ticketdetails.php?id=<?= $row['TicketID'] ?>" class="btn btn-sm btn-outline-primary">View</a>
           </td>
         </tr>
         <?php endwhile; ?>
