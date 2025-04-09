@@ -117,7 +117,7 @@ if ($user_id) {
           <i class="fa-solid fa-ticket fa-2x text-primary mb-3"></i>
           <h5 class="card-title">View Assigned Tickets</h5>
           <p class="card-text">Check tickets that have been assigned to you.</p>
-          <a href="/viewtickets.html" class="btn btn-outline-primary">View Tickets</a>
+          <a href="viewtickets.php" class="btn btn-outline-primary">View Tickets</a>
         </div>
       </div>
     </div>

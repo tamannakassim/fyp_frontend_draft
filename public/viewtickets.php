@@ -1,3 +1,30 @@
+<?php
+session_start();
+include __DIR__ . '/db_connect.php'; 
+
+$user_id = $_SESSION['user_id'] ?? null;
+
+if (!$user_id) {
+    header("Location: login.php");
+    exit();
+}
+
+$query = "SELECT t.TicketID, t.Title, t.Status, t.CreatedAt, t.CategoryId, s.StudentID as StudentID, u.FirstName, u.LastName, c.CategoryName
+          FROM tickets t
+          JOIN ticketassignments ta ON t.TicketID = ta.TicketID
+          JOIN users u ON t.UserID = u.UserID
+          JOIN students s ON u.UserID = s.UserID
+          JOIN ticketcategories c ON t.CategoryID = c.CategoryID
+          WHERE ta.AssignedTo = ?
+          ORDER BY t.CreatedAt DESC";
+
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +65,7 @@
 
 <!-- Navbar -->
 <nav class="d-flex justify-content-between align-items-center px-4">
-  <a href="#"><img src="../fyp_frontend_draft-main/images/favicon-logo (1).png" alt="aiu-logo"></a>
+  <a href="#"><img src="../fyp_frontend_draft-main/images/favicon-logo (1).png" alt="aiu-logo" height="40"></a>
   <div>
     <a href="#" class="me-3"><i class="fa-regular fa-bell fs-5"></i></a>
     <a href="#" class="btn btn-danger btn-sm">Logout</a>
@@ -55,6 +82,7 @@
       <thead class="table-light">
         <tr>
           <th>Ticket ID</th>
+          <th>Student ID</th>
           <th>Student Name</th>
           <th>Category</th>
           <th>Title</th>
@@ -64,19 +92,25 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Sample row -->
+        <?php while($row = $result->fetch_assoc()): ?>
         <tr>
-          <td>#12345</td>
-          <td>Jane Doe</td>
-          <td>Wi-Fi Issues</td>
-          <td>Cannot Connect to Campus Wi-Fi</td>
-          <td>2025-03-30</td>
-          <td><span class="badge bg-warning text-dark">In Progress</span></td>
+          <td>#<?= $row['TicketID'] ?></td>
+          <td><?= $row['StudentID'] ?></td>
+          <td><?= htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']) ?></td>
+          <td><?= htmlspecialchars($row['CategoryName']) ?></td>
+          <td><?= htmlspecialchars($row['Title']) ?></td>
+          <td><?= $row['CreatedAt'] ?></td>
           <td>
-            <a href="/ticketdetail.html" class="btn btn-sm btn-outline-primary">View</a>
+            <span class="badge 
+              <?= $row['Status'] == 'Resolved/Closed' ? 'bg-success' : 'bg-warning text-dark' ?>">
+              <?= $row['Status'] ?>
+            </span>
+          </td>
+          <td>
+            <a href="ticket_details.php?id=<?= $row['TicketID'] ?>" class="btn btn-sm btn-outline-primary">View</a>
           </td>
         </tr>
-        <!-- More rows would be dynamically added here -->
+        <?php endwhile; ?>
       </tbody>
     </table>
   </div>
