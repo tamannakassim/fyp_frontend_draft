@@ -92,8 +92,9 @@ $result = $stmt->get_result();
 <div class="container my-5">
   <h3 class="mb-4 text-center"><?= $heading ?></h3>
 
-  <!-- Tickets Table -->
-  <div class="table-responsive">
+ <!-- Tickets Table -->
+<div class="table-responsive">
+  <?php if ($result->num_rows > 0): ?>
     <table class="table table-bordered align-middle text-center">
       <thead class="table-light">
         <tr>
@@ -109,26 +110,38 @@ $result = $stmt->get_result();
       </thead>
       <tbody>
         <?php while($row = $result->fetch_assoc()): ?>
-        <tr>
-          <td>#<?= $row['TicketID'] ?></td>
-          <td>AIU<?= $row['StudentID'] ?></td>
-          <td><?= htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']) ?></td>
-          <td><?= htmlspecialchars($row['CategoryName']) ?></td>
-          <td><?= htmlspecialchars($row['Title']) ?></td>
-          <td><?= $row['CreatedAt'] ?></td>
-          <td>
-            <span class="badge 
-              <?= $row['Status'] == 'Resolved' ? 'bg-success' : 'bg-warning text-dark' ?>">
-              <?= $row['Status'] ?>
-            </span>
-          </td>
-          <td>
-            <a href="ticketdetails.php?id=<?= $row['TicketID'] ?>" class="btn btn-sm btn-outline-primary">View</a>
-          </td>
-        </tr>
+          <tr>
+            <td>#<?= $row['TicketID'] ?></td>
+            <td>AIU<?= $row['StudentID'] ?></td>
+            <td><?= htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']) ?></td>
+            <td><?= htmlspecialchars($row['CategoryName']) ?></td>
+            <td><?= htmlspecialchars($row['Title']) ?></td>
+            <td><?= $row['CreatedAt'] ?></td>
+            <td>
+              <span class="badge 
+                <?= $row['Status'] == 'Resolved' ? 'bg-success' : 'bg-warning text-dark' ?>">
+                <?= $row['Status'] ?>
+              </span>
+            </td>
+            <td>
+              <a href="ticketdetails.php?id=<?= $row['TicketID'] ?>" class="btn btn-sm btn-outline-primary">View</a>
+            </td>
+          </tr>
         <?php endwhile; ?>
       </tbody>
     </table>
+  <?php else: ?>
+    <!-- Message displayed when there are no tickets -->
+    <div class="text-center mt-5">
+      <img src="no-data.png" alt="No tickets" style="min-width: 300px;" class="mb-3">
+      <h5 class="text-muted">
+        There are currently no 
+        <?= $status === 'In Progress' ? 'ongoing' : ($status === 'Resolved' ? 'resolved' : 'assigned') ?> tickets.
+      </h5>
+    </div>
+  <?php endif; ?>
+</div>
+
   </div>
 </div>
 
