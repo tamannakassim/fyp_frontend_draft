@@ -10,7 +10,7 @@ if (!isset($_GET['id'])) {
 $ticketID = $_GET['id'];
 
 $query = "SELECT 
-            t.TicketID, t.Title, t.Summary, t.Status, t.AttachmentPath, t.CreatedAt,
+            t.TicketID, t.Title, t.Summary, t.Status, t.AttachmentPath, t.CreatedAt,t.ClosedAt,
             c.CategoryName,
             u.FirstName, u.LastName, u.Email,
             s.StudentID,
@@ -130,21 +130,27 @@ if (!$ticket = $result->fetch_assoc()) {
       <dt class="col-sm-3">Assigned At:</dt>
       <dd class="col-sm-9"><?= date('F j, Y \a\t g:i A', strtotime($ticket['AssignedAt'])) ?></dd>
     </dl>
-
-    <!-- Status Update Form -->
-    <form method="POST" action="update_ticket_status.php" class="mt-4">
-      <div class="mb-3">
-        <label for="status" class="form-label">Update Ticket Status</label>
-        <select class="form-select" name="status" id="status" required>
-          <option value="In Progress" <?= $ticket['Status'] === 'In Progress' ? 'selected' : '' ?>>In Progress</option>
-          <option value="Resolved/Closed" <?= $ticket['Status'] === 'Resolved' ? 'selected' : '' ?>>Resolved</option>
-        </select>
-      </div>
-      <input type="hidden" name="ticket_id" value="<?= $ticket['TicketID'] ?>" />
-      <button type="submit" class="btn btn-primary">Update Status</button>
-    </form>
+    <!-- Logic to hide form when the ticket has been resolved -->
+<?php if (strtolower(trim($ticket['Status'])) !== 'resolved'): ?>
+  <!-- Status Update Form -->
+  <form method="POST" action="update_ticket_status.php" class="mt-4">
+    <div class="mb-3">
+      <label for="status" class="form-label">Update Ticket Status</label>
+      <select class="form-select" name="status" id="status" required>
+        <option value="In Progress" <?= $ticket['Status'] === 'In Progress' ? 'selected' : '' ?>>In Progress</option>
+        <option value="Resolved" <?= $ticket['Status'] === 'Resolved' ? 'selected' : '' ?>>Resolved</option>
+      </select>
+    </div>
+    <input type="hidden" name="ticket_id" value="<?= $ticket['TicketID'] ?>" />
+    <button type="submit" class="btn btn-primary">Update Status</button>
+  </form>
+<?php else: ?>
+  <div class="alert alert-success mt-4">
+    <strong>Ticket closed at:</strong> <?= date('F j, Y g:i A', strtotime($ticket['ClosedAt'])) ?>
   </div>
-</div>
+  </p>
+<?php endif; ?>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

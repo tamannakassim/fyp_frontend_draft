@@ -8,6 +8,22 @@ if (!$user_id) {
     header("Location: login.php");
     exit();
 }
+//Get status from query string (default is 'Submitted')
+$status = $_GET['status'] ?? 'Submitted';
+// Custom display names for the headings
+$heading_map = [
+  'Submitted' => 'Assigned Tickets',
+  'In Progress' => 'Ongoing Tickets',
+  'Resolved' => 'Resolved Tickets'
+];
+
+$heading = $heading_map[$status] ?? 'Tickets';
+
+// Sanitizing  allowed statuses
+$allowed_statuses = ['Submitted', 'In Progress', 'Resolved'];
+if (!in_array($status, $allowed_statuses)) {
+    $status = 'Submitted';
+}
 
 $query = "SELECT t.TicketID, t.Title, t.Status, t.CreatedAt, t.CategoryId, s.StudentID as StudentID, u.FirstName, u.LastName, c.CategoryName
           FROM tickets t
@@ -15,11 +31,11 @@ $query = "SELECT t.TicketID, t.Title, t.Status, t.CreatedAt, t.CategoryId, s.Stu
           JOIN users u ON t.UserID = u.UserID
           JOIN students s ON u.UserID = s.UserID
           JOIN ticketcategories c ON t.CategoryID = c.CategoryID
-          WHERE ta.AssignedTo = ?
+          WHERE ta.AssignedTo = ? AND t.Status = ?
           ORDER BY t.CreatedAt DESC";
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("is", $user_id, $status);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -74,7 +90,7 @@ $result = $stmt->get_result();
 
 <!-- Page Header -->
 <div class="container my-5">
-  <h3 class="mb-4 text-center">Assigned Tickets</h3>
+  <h3 class="mb-4 text-center"><?= $heading ?></h3>
 
   <!-- Tickets Table -->
   <div class="table-responsive">
@@ -102,7 +118,7 @@ $result = $stmt->get_result();
           <td><?= $row['CreatedAt'] ?></td>
           <td>
             <span class="badge 
-              <?= $row['Status'] == 'Resolved/Closed' ? 'bg-success' : 'bg-warning text-dark' ?>">
+              <?= $row['Status'] == 'Resolved' ? 'bg-success' : 'bg-warning text-dark' ?>">
               <?= $row['Status'] ?>
             </span>
           </td>

@@ -117,7 +117,7 @@ if ($user_id) {
           <i class="fa-solid fa-ticket fa-2x text-primary mb-3"></i>
           <h5 class="card-title">View Assigned Tickets</h5>
           <p class="card-text">Check tickets that have been assigned to you.</p>
-          <a href="viewtickets.php" class="btn btn-outline-primary">View Tickets</a>
+          <a href="viewtickets.php?status=Submitted"  class="btn btn-outline-primary">View Tickets</a> <!--testing dynamic page-->
         </div>
       </div>
     </div>
@@ -129,7 +129,7 @@ if ($user_id) {
           <i class="fa-solid fa-spinner fa-2x text-warning mb-3"></i>
           <h5 class="card-title">View Ongoing Tickets</h5>
           <p class="card-text">Monitor and update tickets you're currently working on.</p>
-          <a href="#" class="btn btn-outline-warning">View Ongoing</a>
+          <a href="viewtickets.php?status=In Progress" class="btn btn-outline-warning">View Ongoing</a>
         </div>
       </div>
     </div>
@@ -141,7 +141,7 @@ if ($user_id) {
           <i class="fa-solid fa-circle-check fa-2x text-success mb-3"></i>
           <h5 class="card-title">View Resolved Tickets</h5>
           <p class="card-text">See a list of tickets you've already resolved.</p>
-          <a href="#" class="btn btn-outline-success">View Resolved</a>
+          <a href="viewtickets.php?status=Resolved" class="btn btn-outline-success">View Resolved</a>
         </div>
       </div>
     </div>
